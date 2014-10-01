@@ -73,16 +73,18 @@ function love.load()
 	map = init_map(client, width, height)
 	insert_cell(map, client)
 
-	print(pretty.write(map, "  ", true))
+	-- print(pretty.write(map, "  ", true))
 end
 
 function love.update(dt)
 end
 
 function draw_map(map, width, height)
+	cell_size = 16
+
 	for i = 1, width do
 		for j = 1, height do
-			love.graphics.rectangle("line", map[i][j].x * 32 + 1, map[i][j].y * 32 + 1, 32, 32)
+			love.graphics.rectangle("line", map[i][j].x * cell_size, map[i][j].y * cell_size, cell_size, cell_size)
 		end
 	end
 end
