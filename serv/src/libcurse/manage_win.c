@@ -6,15 +6,15 @@
 /*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/07/15 14:55:47 by adebray           #+#    #+#             */
-/*   Updated: 2014/07/19 05:56:07 by adebray          ###   ########.fr       */
+/*   Updated: 2014/10/02 15:32:31 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <curse.h>
 
-WINDOW		*create_win(WINTAB *array)
+t_win		*create_win(t_wintab *array)
 {
-	WINDOW	*new;
+	t_win	*new;
 
 	new = newwin(array[0], array[1], array[2], array[3]);
 	manage_win_list(ADD, new);
@@ -22,24 +22,24 @@ WINDOW		*create_win(WINTAB *array)
 	return (new);
 }
 
-WINDOW		*create_boxed_win(WINTAB *array)
+t_win		*create_boxed_win(t_wintab *array)
 {
-	WINDOW	*new;
+	t_win	*new;
 
 	new = newwin(array[0], array[1], array[2], array[3]);
 	manage_win_list(ADD, new);
-	box(new, 0 , 0);
+	box(new, 0, 0);
 	wrefresh(new);
 	return (new);
 }
 
-void		print_win(WINDOW *ptr)
+void		print_win(t_win *ptr)
 {
 	ft_printf("print_win\n");
 	ft_printf("ptr: %p", ptr);
 }
 
-void		print_win_fd(WINDOW *ptr, int fd)
+void		print_win_fd(t_win *ptr, int fd)
 {
 	char	*content;
 
@@ -48,26 +48,26 @@ void		print_win_fd(WINDOW *ptr, int fd)
 	free (content);
 }
 
-void		refresh_win(WINDOW *win)
+void		refresh_win(t_win *win)
 {
 	wrefresh(win);
 }
 
-void		destroy_win(WINDOW *win)
+void		destroy_win(t_win *win)
 {
-	wborder(win, ' ', ' ', ' ',' ',' ',' ',' ',' ');
+	wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
 	wrefresh(win);
 	delwin(win);
 }
 
-WINDOW		*manage_win(int macro, WINTAB *array)
+t_win		*manage_win(int macro, t_wintab *array)
 {
-	static WINDOW	*ptr;
+	static t_win	*ptr;
 
 	if (macro == GET)
 		return (ptr);
-	// else if (macro == SET)
-	// 	ptr = object;
+	else if (macro == SET)
+		ptr = object;
 	else if (macro == NEW_B)
 	{
 		ptr = create_boxed_win(array);
