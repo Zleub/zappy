@@ -1,28 +1,20 @@
+pretty = require 'pl.pretty'
+
 function love.load()
 	print('Lua_client')
-	socket = require 'socket'
-	client = socket.connect('*', 4558)
-
-	local str = client:receive()
-	print(str)
-
-	client:send('TEAMALPHA\n')
-	str = client:receive()
-	if str ~= 'ko' then
-		print('slots left:', str)
-		str = client:receive()
-		print('world size:', str)
-
-		client:send('voir\n')
-		str = client:receive()
-		print('voir:', str)
-	else
-		print('team name undefined')
-	end
+	client = require 'client':init()
+	-- pretty.dump(client)
+	tempo = 0
 end
 
 function love.update(dt)
+	tempo = tempo + dt
+	if tonumber(string.format("%.1f", tempo)) % 1 == 0 then
+		client:askInventory()
+	end
+	client:update()
 end
 
 function love.draw()
+	client:draw()
 end
