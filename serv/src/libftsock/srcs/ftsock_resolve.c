@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ftsock_resolve.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garm <garm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/14 19:17:08 by garm              #+#    #+#             */
-/*   Updated: 2014/09/28 22:20:22 by garm             ###   ########.fr       */
+/*   Updated: 2014/10/02 15:48:50 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftsock.h"
+#include <libftsock.h>
 
 void		ftsock_resolve_host(t_tcpsock *host, char *dns)
 {

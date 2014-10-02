@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ftsock_hooks.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garm <garm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/28 00:59:03 by garm              #+#    #+#             */
-/*   Updated: 2014/09/28 22:20:23 by garm             ###   ########.fr       */
+/*   Updated: 2014/10/02 15:48:38 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftsock.h"
+#include <libftsock.h>
 
 void		ftsock_connect_hook(t_serv *s, void (*f)(t_serv *, t_ccom **))
 {

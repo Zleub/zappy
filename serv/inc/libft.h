@@ -6,7 +6,7 @@
 /*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/11/30 00:03:36 by adebray           #+#    #+#             */
-/*   Updated: 2014/08/09 07:22:07 by adebray          ###   ########.fr       */
+/*   Updated: 2014/10/02 16:14:56 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 # include <unistd.h>
 # include <string.h>
 # include <stddef.h>
-
-# define BUFF_SIZE 1024
 
 typedef struct		s_read
 {

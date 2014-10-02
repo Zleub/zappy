@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_cbuff_write.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garm <garm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/29 22:33:39 by garm              #+#    #+#             */
-/*   Updated: 2014/09/28 22:20:12 by garm             ###   ########.fr       */
+/*   Updated: 2014/10/02 15:49:49 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftsock.h"
+#include <libftsock.h>
 
 int			utils_cbuff_write(t_cbuff *b, void *data, size_t len)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ftsock_serv_send.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garm <garm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/28 01:17:05 by garm              #+#    #+#             */
-/*   Updated: 2014/09/28 22:20:17 by garm             ###   ########.fr       */
+/*   Updated: 2014/10/02 15:49:18 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftsock.h"
+#include <libftsock.h>
 
 void		ftsock_serv_write(t_serv *s, t_client **client_ptr)
 {

@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ftsock_serv_close.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garm <garm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/28 23:36:52 by garm              #+#    #+#             */
-/*   Updated: 2014/09/28 22:20:20 by garm             ###   ########.fr       */
+/*   Updated: 2014/10/02 15:48:55 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftsock.h"
+#include <libftsock.h>
 
 void		ftsock_serv_close(t_serv *s)
 {
 	t_client	*c;
 	t_client	*old;
-	
+
 	if (s)
 	{
 		c = s->clients;

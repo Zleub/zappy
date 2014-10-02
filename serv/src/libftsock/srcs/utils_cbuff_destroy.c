@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_cbuff_destroy.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garm <garm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/29 22:30:58 by garm              #+#    #+#             */
-/*   Updated: 2014/09/28 22:20:13 by garm             ###   ########.fr       */
+/*   Updated: 2014/10/02 15:49:44 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftsock.h"
+#include <libftsock.h>
 
 void		utils_cbuff_destroy(t_cbuff **b)
 {
