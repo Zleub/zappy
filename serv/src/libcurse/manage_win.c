@@ -6,7 +6,7 @@
 /*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/07/15 14:55:47 by adebray           #+#    #+#             */
-/*   Updated: 2014/10/02 15:32:31 by adebray          ###   ########.fr       */
+/*   Updated: 2014/10/02 15:43:19 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ t_win		*manage_win(int macro, t_wintab *array)
 
 	if (macro == GET)
 		return (ptr);
-	else if (macro == SET)
-		ptr = object;
 	else if (macro == NEW_B)
 	{
 		ptr = create_boxed_win(array);

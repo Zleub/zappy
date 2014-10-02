@@ -6,7 +6,7 @@
 /*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/07/16 02:44:53 by adebray           #+#    #+#             */
-/*   Updated: 2014/10/02 15:37:59 by adebray          ###   ########.fr       */
+/*   Updated: 2014/10/02 15:42:56 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_wintab_list		*create_wintab_list(void)
 	return (new);
 }
 
-t_wintab_list		*add_wintab_list(t_wintab_list *head, WINTAB *object)
+t_wintab_list		*add_wintab_list(t_wintab_list *head, t_wintab *object)
 {
 	t_wintab_list	*tmp;
 
@@ -73,7 +73,7 @@ t_wintab_list		*destroy_wintab_list(t_wintab_list *head)
 	return (NULL);
 }
 
-t_wintab_list		*manage_wintab_list(int macro, WINTAB *array)
+t_wintab_list		*manage_wintab_list(int macro, t_wintab *array)
 {
 	static t_wintab_list	*head;
 
