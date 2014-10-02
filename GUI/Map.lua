@@ -3,8 +3,8 @@ map = {}
 function map:conf()
 	self.address = '*'
 	self.port = 4559
-	self.cell_size = 64
 	self.timeout = 3
+	self.cell_size = 64
 end
 
 function map.read(str)
@@ -22,7 +22,6 @@ end
 function map:init_size()
 	local tmp = map.read(self.client:receive('*l'))
 
-	pretty.dump(tmp)
 	if tmp == nil then
 		return nil
 	elseif tmp[1] == 'M' then
