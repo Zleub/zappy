@@ -4,6 +4,7 @@ function map:conf()
 	self.address = '*'
 	self.port = 4559
 	self.cell_size = 64
+	self.timeout = 5
 end
 
 function map.read(str)
@@ -92,7 +93,7 @@ function map:init()
 	self:conf()
 	self.socket = require 'socket'
 	self.client = self.socket.connect(self.address, self.port)
-	self.client:settimeout(3)
+	self.client:settimeout(self.timeout)
 
 	self.width, self.height = self:init_size()
 	self.data = map:create()
