@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   manage_win_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Arno <Arno@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/07/15 14:55:33 by adebray           #+#    #+#             */
-/*   Updated: 2014/07/27 17:44:21 by Arno             ###   ########.fr       */
+/*   Updated: 2014/10/02 15:35:44 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <curse.h>
 
-t_win_list	*create_win_list(void)
+t_win_list		*create_win_list(void)
 {
 	t_win_list	*new;
 
-	if(!(new = (t_win_list*)malloc(sizeof(t_win_list))))
+	if (!(new = (t_win_list*)malloc(sizeof(t_win_list))))
 		return (NULL);
 	new->win = NULL;
 	new->next = NULL;
 	return (new);
 }
 
-t_win_list		*add_win_list(t_win_list *head, WINDOW *object)
+t_win_list		*add_win_list(t_win_list *head, t_win *object)
 {
 	t_win_list	*tmp;
 
@@ -43,9 +43,9 @@ t_win_list		*add_win_list(t_win_list *head, WINDOW *object)
 	return (head);
 }
 
-void		print_win_list(t_win_list *head)
+void			print_win_list(t_win_list *head)
 {
-	int		fd;
+	int			fd;
 	t_win_list	*tmp;
 
 	if (!(fd = open("print_win_list", O_CREAT | O_TRUNC | O_WRONLY, 0755)))
@@ -72,14 +72,14 @@ t_win_list		*destroy_win_list(t_win_list *head)
 	return (NULL);
 }
 
-t_win_list		*manage_win_list(int macro, WINDOW *object)
+t_win_list		*manage_win_list(int macro, t_win *object)
 {
 	static t_win_list	*head;
 
 	if (macro == GET)
 		return (head);
-	// else if (macro == SET)
-	// 	head = object;
+	else if (macro == SET)
+		head = object;
 	else if (macro == ADD)
 		head = add_win_list(head, object);
 	else if (macro == PRINT)
