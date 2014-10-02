@@ -1,6 +1,6 @@
 ## Zappy
 
-### GUI
+### GUI (./gfx)
 GUI is a love2d's Lua folder for the gfx exe<br>
 modules
 - Pl is Penlight by stevedonovan (https://github.com/stevedonovan/Penlight)
