@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ftsock_client.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garm <garm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/14 19:15:51 by garm              #+#    #+#             */
-/*   Updated: 2014/09/28 22:20:26 by garm             ###   ########.fr       */
+/*   Updated: 2014/10/02 15:48:12 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftsock.h"
+#include <libftsock.h>
 
 t_tcpsock	*ftsock_create_client(char *ip, int port)
 {

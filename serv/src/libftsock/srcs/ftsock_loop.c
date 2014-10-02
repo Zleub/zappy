@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ftsock_loop.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garm <garm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/28 01:18:02 by garm              #+#    #+#             */
-/*   Updated: 2014/09/28 22:20:22 by garm             ###   ########.fr       */
+/*   Updated: 2014/10/02 15:48:44 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftsock.h"
+#include <libftsock.h>
 
 static void		new_client(t_serv *s)
 {

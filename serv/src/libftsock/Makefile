@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: garm <garm@student.42.fr>                  +#+  +:+       +#+         #
+#    By: adebray <adebray@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/02/07 21:16:03 by garm              #+#    #+#              #
-##   Updated: 2014/09/28 22:16:00 by garm             ###   ########.fr       ##
+#    Updated: 2014/10/02 15:51:25 by adebray          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ LIBS = -lft
 FTLIBS = libft.a
 
 SOURCES_DIR = srcs
-INCLUDES_DIR = includes
+INCLUDES_DIR = ../../inc
 
 ifeq ($(DEBUG), 1)
 	FLAGS = -g -Wall -Wextra -pedantic

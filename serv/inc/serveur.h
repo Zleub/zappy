@@ -1,22 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_cbuff_bzero.c                                :+:      :+:    :+:   */
+/*   serveur.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garm <garm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/06/29 22:55:32 by garm              #+#    #+#             */
-/*   Updated: 2014/09/28 22:20:15 by garm             ###   ########.fr       */
+/*   Created: 2014/10/02 16:15:34 by adebray           #+#    #+#             */
+/*   Updated: 2014/10/02 16:16:04 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftsock.h"
+#ifndef SERVEUR_H
+# define SERVEUR_H
 
-void		utils_cbuff_bzero(t_cbuff *b)
-{
-	if (b)
-	{
-		b->offset = 0;
-		ft_bzero(b->data, b->size);
-	}
-}
+#endif

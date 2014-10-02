@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ftsock_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garm <garm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/14 19:18:37 by garm              #+#    #+#             */
-/*   Updated: 2014/09/28 22:20:25 by garm             ###   ########.fr       */
+/*   Updated: 2014/10/02 15:48:30 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftsock.h"
+#include <libftsock.h>
 
 int		ftsock_perror(char error)
 {

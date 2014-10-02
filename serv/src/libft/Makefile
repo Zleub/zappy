@@ -60,6 +60,6 @@ fclean:		clean
 			@rm -f $(NAME)
 			@echo "\033[31m•\033[0m libft fclean: \033[31m$(NAME)\033[0m"
 
-re:			all
+re:			fclean all
 
 .PHONY: all clean fclean re

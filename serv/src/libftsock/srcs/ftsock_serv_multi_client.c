@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ftsock_serv_multi_client.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garm <garm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/28 00:49:34 by garm              #+#    #+#             */
-/*   Updated: 2014/09/28 22:20:19 by garm             ###   ########.fr       */
+/*   Updated: 2014/10/02 15:49:05 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftsock.h"
+#include <libftsock.h>
 
 t_serv						*ftsock_serv_multi_client(int port, int backlog)
 {

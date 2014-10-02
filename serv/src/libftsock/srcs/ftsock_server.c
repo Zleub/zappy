@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ftsock_server.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garm <garm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/14 19:33:58 by garm              #+#    #+#             */
-/*   Updated: 2014/09/28 22:20:16 by garm             ###   ########.fr       */
+/*   Updated: 2014/10/02 15:49:26 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftsock.h"
+#include <libftsock.h>
 
 static void		ftsock_prepare(t_tcpsock *s, t_protoent *proto, int p, int backlog)
 {

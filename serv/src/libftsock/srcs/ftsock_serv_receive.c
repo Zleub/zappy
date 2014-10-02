@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ftsock_serv_receive.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garm <garm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/30 12:22:13 by garm              #+#    #+#             */
-/*   Updated: 2014/09/28 22:20:18 by garm             ###   ########.fr       */
+/*   Updated: 2014/10/02 15:49:11 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftsock.h"
+#include <libftsock.h>
 
 static size_t		utils_memlenc(const char *s, char c, size_t len)
 {

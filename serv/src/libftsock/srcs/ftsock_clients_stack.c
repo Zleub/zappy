@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ftsock_clients_stack.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garm <garm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/28 20:54:59 by garm              #+#    #+#             */
-/*   Updated: 2014/09/28 22:20:25 by garm             ###   ########.fr       */
+/*   Updated: 2014/10/02 15:48:18 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftsock.h"
+#include <libftsock.h>
 
 static t_client		*ftsock_client_new(t_tcpsock *tcps)
 {
