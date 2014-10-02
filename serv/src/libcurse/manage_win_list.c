@@ -6,7 +6,7 @@
 /*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/07/15 14:55:33 by adebray           #+#    #+#             */
-/*   Updated: 2014/10/02 15:35:44 by adebray          ###   ########.fr       */
+/*   Updated: 2014/10/02 15:43:46 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ t_win_list		*manage_win_list(int macro, t_win *object)
 
 	if (macro == GET)
 		return (head);
-	else if (macro == SET)
-		head = object;
 	else if (macro == ADD)
 		head = add_win_list(head, object);
 	else if (macro == PRINT)
