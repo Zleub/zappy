@@ -19,3 +19,17 @@ functions
 - map:create init data table
 - map:draw
 - map:init init map module
+
+### serv (./serveur)
+serv is the C project serveur for zappy
+- inc for all libraries includes
+- src for all libraries source code
+- main.c for code anchor
+
+libs
+- libft for C basics
+- ft_printf for printf
+- curse for ncurses managing style
+- libsock for sockets management
+- serveur for future serveur lib
+
