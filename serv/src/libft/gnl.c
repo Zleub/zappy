@@ -6,17 +6,17 @@
 /*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/13 22:21:30 by tcharlat          #+#    #+#             */
-/*   Updated: 2014/08/07 11:24:45 by adebray          ###   ########.fr       */
+/*   Updated: 2014/10/02 16:51:25 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <ft_printf.h>
 
-char				*ft_strcatloc(char *str1, char*str2)
+char		*ft_strcatloc(char *str1, char *str2)
 {
-	char			*save;
-	char			*ret;
+	char	*save;
+	char	*ret;
 
 	ret = (char*)malloc(sizeof(char) * (ft_strlen(str1) + ft_strlen(str2)) + 1);
 	save = ret;
@@ -34,10 +34,10 @@ char				*ft_strcatloc(char *str1, char*str2)
 	return (save);
 }
 
-int					get_next_line(int fd, char **line)
+int			get_next_line(int fd, char **line)
 {
-	int				ret;
-	char			tmp[2];
+	int		ret;
+	char	tmp[2];
 
 	*line = NULL;
 	tmp[1] = '\0';
