@@ -5,6 +5,7 @@ function client:conf()
 	self.port = 4558
 	self.timeout = 0.1
 	self.team = 'team1\n'
+	self.lvl = 1
 	self.data = {
 		greeting = 'BIENVENUE',
 		fail = 'ko',
@@ -51,7 +52,7 @@ function client:readline()
 	if self.str == nil then
 		print('...')
 	else
-		print(self.str)
+		-- print(self.str)
 	end
 end
 
@@ -103,7 +104,9 @@ end
 function client:askInventory()
 	self:send("inventaire\n")
 	self:readline()
-	self.inventory = self:getInventory()
+	if self.str ~= nil then
+		self.inventory = self:getInventory()
+	end
 end
 
 function client:printInventory()
