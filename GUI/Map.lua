@@ -33,6 +33,8 @@ end
 function map:init_cell()
 	local tmp = map.read(self.client:receive('*l'))
 
+	pretty.dump(tmp)
+
 	if tmp == nil then
 		return nil
 	elseif tmp[1] == '+' then
