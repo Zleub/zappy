@@ -3,7 +3,7 @@ map = {}
 function map:conf()
 	self.address = '*'
 	self.port = 4559
-	self.cell_size = 32
+	self.cell_size = 64
 end
 
 function map.read(str)
@@ -36,7 +36,7 @@ function map:init_cell()
 	if tmp == nil then
 		return nil
 	elseif tmp[1] == '+' then
-		return {x = tmp[2] + 1, y = tmp[3] + 1, c = tmp[4]}
+		return { x = tmp[2] + 1, y = tmp[3] + 1, c = tmp[4] }
 	else
 		return nil
 	end
