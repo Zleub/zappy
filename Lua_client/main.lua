@@ -10,15 +10,15 @@ function love.load()
 	str = client:receive()
 	if str ~= 'ko' then
 		print('slots left:', str)
+		str = client:receive()
+		print('world size:', str)
+
+		client:send('voir\n')
+		str = client:receive()
+		print('voir:', str)
 	else
 		print('team name undefined')
 	end
-	str = client:receive()
-	print('world size:', str)
-
-	client:send('voir\n')
-	str = client:receive()
-	print('voir:', str)
 end
 
 function love.update(dt)
