@@ -5,6 +5,10 @@ function map:conf()
 	self.port = 4559
 	self.cell_size = 32
 	self.timeout = 0.01
+
+	self.mapchar = string.byte('M')
+	self.charchar = string.byte('C')
+	self.celladdchar = string.byte('+')
 end
 
 function map.read(str)
@@ -38,55 +42,21 @@ function map.convert(rawcell)
 end
 
 function map:init_size()
-	local tmp = map.read(self.client:receive('*l'))
+	local tmp = map.read(self.str)
 
-	pretty.dump(tmp)
-	if tmp == nil then
-		return nil
-	elseif tmp[1] == 'M' then
-		return tmp[2], tmp[3]
-	else
-		return 0, 0
-	end
-end
-
-function map:init_cell()
-	local tmp = map.read(self.client:receive('*l'))
-
-	if tmp == nil then
-		return nil
-	elseif tmp[1] == '+' then
-		return { x = tmp[2] + 1, y = tmp[3] + 1, c = tmp[4] }
-	else
-		return nil
-	end
-end
-
-function map:insert_cell()
-	local busy = 1
-	local rawcell
-
-	while busy == 1 do
-		rawcell = self:init_cell()
-		if rawcell == nil then
-			break
-		else
-			table.insert(self.data[rawcell.x][rawcell.y].content, map.convert(tonumber(rawcell.c)))
-		end
-	end
-	pretty.dump(self.data)
+	self.width, self.height = tmp[2], tmp[3]
 end
 
 function map:create()
-	local data = {}
 	local cell_nbr = self.width * self.height
+	self.data = {}
 	self.shapes = {}
 
 	for i = 1, self.width do
-		data[i] = {}
+		self.data[i] = {}
 		self.shapes[i] = {}
 		for j = 1, self.height do
-			data[i][j] = {
+			self.data[i][j] = {
 				x = i - 1,
 				y = j - 1,
 				content = {}
@@ -99,10 +69,10 @@ function map:create()
 			)
 		end
 	end
-	return data
 end
 
 function map:update()
+	print('update ...')
 	self.mouse:moveTo(love.mouse.getPosition())
 	local str = self.client:receive()
 	if str ~= nil then
@@ -113,15 +83,46 @@ end
 function map:draw()
 	for k,v in pairs(self.shapes) do
 		for key,val in pairs(v) do
-				if self.mouse:collidesWith(val) then
-					love.graphics.polygon('fill', val._polygon:unpack())
-					love.graphics.print(pretty.write(self.data[k][key]), 350, 0)
-				else
-					love.graphics.polygon('line', val._polygon:unpack())
-				end
+			if self.mouse:collidesWith(val) then
+				love.graphics.polygon('fill', val._polygon:unpack())
+				love.graphics.print(pretty.write(self.data[k][key]), 350, 0)
+			else
+				love.graphics.polygon('line', val._polygon:unpack())
+			end
 		end
 	end
 end
+
+function map:update_cell()
+	print(self.str)
+	local tmp = map.read(self.str)
+
+	table.insert(self.data[tmp[2] + 1][tmp[3] + 1].content, map.convert(tonumber(tmp[4])))
+end
+
+function map:getmessage()
+	-- print(self.str)
+	if string.byte(self.str) == self.mapchar then
+		self:init_size()
+		self:create()
+		print("init_size:", self.width, self.height)
+	elseif string.byte(self.str) == self.celladdchar then
+		self:update_cell()
+	end
+end
+
+function map:listen()
+	self.str = self.client:receive('*l')
+	if self.str ~= nil then
+		self:getmessage()
+		-- print(self.str)
+		return 1
+	else
+		print("listen ...")
+		return 0
+	end
+end
+
 
 function map:init()
 	self:conf()
@@ -134,11 +135,11 @@ function map:init()
 	self.HC = self.Collider.new(150)
 	self.mouse =  self.HC:addPoint(love.mouse.getPosition())
 
-	print(rectest)
-
-	self.width, self.height = self:init_size()
-	self.data = map:create()
-	self:insert_cell()
+	while (42) do
+		if self:listen() == 0 then
+			break
+		end
+	end
 	return self
 end
 
