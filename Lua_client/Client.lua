@@ -51,18 +51,13 @@ function client:readline()
 	self.str = self.client:receive('*l')
 	if self.str == nil then
 		print('...')
-	else
-		-- print(self.str)
+	elseif self.str == self.data.death then
+			love.event.quit()
 	end
 end
 
 function client:update()
 	self:readline()
-	if self.str then
-		if self.str == self.data.death then
-			love.event.quit()
-		end
-	end
 end
 
 function client:get_greets()
@@ -81,11 +76,11 @@ function client:look()
 
 	self:send("voir\n")
 	self:readline()
-	tmp = client.read(string.sub(self.str, 2, -2))
-	print(self.str)
-	for k,v in pairs(tmp) do
-		print(k,v)
-	end
+	-- tmp = client.read(string.sub(self.str, 2, -2))
+	-- print(self.str)
+	-- for k,v in pairs(tmp) do
+		-- print(k,v)
+	-- end
 end
 
 function client:getInventory()
@@ -108,6 +103,7 @@ function client:getInventory()
 end
 
 function client:askInventory()
+	print('askInventory')
 	self:send("inventaire\n")
 	self:readline()
 	if self.str ~= nil then
@@ -135,7 +131,7 @@ function client:init()
 	self.client:settimeout(self.timeout)
 
 	self:get_greets()
-	self:askInventory()
+	-- self:askInventory()
 	self:look()
 	-- pretty.dump(self.inventory)
 	return self

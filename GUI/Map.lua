@@ -72,7 +72,6 @@ function map:create()
 end
 
 function map:update()
-	print('update ...')
 	self.mouse:moveTo(love.mouse.getPosition())
 	local str = self.client:receive()
 	if str ~= nil then
@@ -94,7 +93,6 @@ function map:draw()
 end
 
 function map:update_cell()
-	print(self.str)
 	local tmp = map.read(self.str)
 
 	table.insert(self.data[tmp[2] + 1][tmp[3] + 1].content, map.convert(tonumber(tmp[4])))
@@ -108,11 +106,14 @@ function map:getmessage()
 		print("init_size:", self.width, self.height)
 	elseif string.byte(self.str) == self.celladdchar then
 		self:update_cell()
+	elseif string.byte(self.str) == self.charchar then
+		print(str)
 	end
 end
 
 function map:listen()
 	self.str = self.client:receive('*l')
+	-- print(self.str)
 	if self.str ~= nil then
 		self:getmessage()
 		-- print(self.str)
