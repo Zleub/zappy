@@ -77,9 +77,15 @@ function client:get_greets()
 end
 
 function client:look()
+	local tmp
+
 	self:send("voir\n")
 	self:readline()
-
+	tmp = client.read(string.sub(self.str, 2, -2))
+	print(self.str)
+	for k,v in pairs(tmp) do
+		print(k,v)
+	end
 end
 
 function client:getInventory()

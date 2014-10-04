@@ -17,10 +17,12 @@ function love.update(dt)
 		client:readline()
 		if client.str == 'ok' then
 			client.inventory.nourriture = client.inventory.nourriture + 1
+			print('got food !')
 		else
 			print('No OFOOD !')
 		end
 	end
+	client:look()
 	client:update()
 end
 
