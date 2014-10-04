@@ -89,7 +89,7 @@ end
 --
 
 function client:getInventory(array)
-	print('getInventory')
+	-- print('getInventory')
 
 	local size = table.getn(array)
 	self.inventory = {}
@@ -118,7 +118,6 @@ function client:getLook(array)
 			self.view[index][tmp] = self.view[index][tmp] + 1
 			index = index + 1
 		else
-			pretty.dump(self.view)
 			self.view[index][v] = self.view[index][v] + 1
 		end
 	end

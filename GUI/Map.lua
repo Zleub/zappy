@@ -26,7 +26,11 @@ function map:conf()
 	self.characters = {}
 end
 
-function map.read(str)
+--
+-- String parsing
+--
+
+function map.split(str)
 	local tmp = {}
 
 	if str == nil then
@@ -39,27 +43,59 @@ function map.read(str)
 end
 
 function map.convert(rawcell)
-	if rawcell == 0 then
+	if rawcell == '0' then
 		return 'Linemate'
-	elseif rawcell == 1 then
+	elseif rawcell == '1' then
 		return 'Deraumère'
-	elseif rawcell == 2 then
+	elseif rawcell == '2' then
 		return 'Sibur'
-	elseif rawcell == 3 then
+	elseif rawcell == '3' then
 		return 'Mendiane'
-	elseif rawcell == 4 then
+	elseif rawcell == '4' then
 		return 'Phiras'
-	elseif rawcell == 5 then
+	elseif rawcell == '5' then
 		return 'Thystame'
-	elseif rawcell == 6 then
+	elseif rawcell == '6' then
 		return 'Nourriture'
 	end
 end
 
 function map:init_size()
-	local tmp = map.read(self.str)
+	local tmp = map.split(self.str)
 
 	self.width, self.height = tmp[2], tmp[3]
+end
+
+--
+-- Read a line form the socket client based on map:conf
+--
+
+function map:leave_char()
+	local tmp = map.split(self.str)
+
+	for k,v in pairs(self.characters) do
+		if v.id == tmp[2] then
+			print('Player '..tostring(v.id)..' is dead ...')
+			table.remove(self.characters, k)
+		end
+	end
+end
+
+function map:new_char()
+	local tmp = map.split(self.str)
+	pretty.dump(tmp)
+
+	table.insert(self.characters, {
+		id = tmp[2],
+		x = tmp[3],
+		y = tmp[4]
+		})
+end
+
+function map:update_cell()
+	local tmp = map.split(self.str)
+
+	table.insert(self.data[tmp[2] + 1][tmp[3] + 1].content, map.convert(tmp[4]))
 end
 
 function map:create()
@@ -82,62 +118,6 @@ function map:create()
 				(i - 1) * self.cell_size + self.cell_size, (j - 1) * self.cell_size + self.cell_size,
 				(i - 1) * self.cell_size, (j - 1) * self.cell_size + self.cell_size
 			)
-		end
-	end
-end
-
-function map:update()
-	self.mouse:moveTo(love.mouse.getPosition())
-	self:listen()
-end
-
-function map:draw()
-	local x1
-	local y1
-	local x2
-	local y2
-
-	for k,v in pairs(self.shapes) do
-		for key,val in pairs(v) do
-			x2, y2, x1, y1 = val._polygon:unpack()
-			love.graphics.draw(self.tileset, self.Quadlist.grass, x1, y1)
-			if self.mouse:collidesWith(val) then
-				love.graphics.rectangle("line", x1, y1, 32, 32)
-				love.graphics.print(pretty.write(self.data[k][key]), 350, 0)
-			end
-		end
-	end
-
-	for k,v in pairs(self.characters) do
-		love.graphics.draw(self.sprites, self.Quadlist.test, v.x * self.cell_size, v.y * self.cell_size)
-	end
-
-end
-
-function map:update_cell()
-	local tmp = map.read(self.str)
-
-	table.insert(self.data[tmp[2] + 1][tmp[3] + 1].content, map.convert(tonumber(tmp[4])))
-end
-
-function map:new_char()
-	local tmp = map.read(self.str)
-	pretty.dump(tmp)
-
-	table.insert(self.characters, {
-		id = tmp[2],
-		x = tmp[3],
-		y = tmp[4]
-		})
-end
-
-function map:leave_char()
-	local tmp = map.read(self.str)
-
-	for k,v in pairs(self.characters) do
-		if v.id == tmp[2] then
-			table.remove(self.characters, k)
-			print('Player '..tostring(v.id)..' is dead ...')
 		end
 	end
 end
@@ -169,6 +149,9 @@ function map:listen()
 	end
 end
 
+--
+-- Handshake to server
+--
 
 function map:init()
 	self:conf()
@@ -187,6 +170,42 @@ function map:init()
 		end
 	end
 	return self
+end
+
+--
+-- Love2d's update loop
+--
+
+
+function map:update()
+	self.mouse:moveTo(love.mouse.getPosition())
+	self:listen()
+end
+
+--
+-- Love2d's drawing loop
+--
+
+function map:draw()
+	local x1
+	local y1
+	local x2
+	local y2
+
+	for k,v in pairs(self.shapes) do
+		for key,val in pairs(v) do
+			x2, y2, x1, y1 = val._polygon:unpack()
+			love.graphics.draw(self.tileset, self.Quadlist.grass, x1, y1)
+			if self.mouse:collidesWith(val) then
+				love.graphics.rectangle("line", x1, y1, 32, 32)
+				love.graphics.print(pretty.write(self.data[k][key]), 350, 0)
+			end
+		end
+	end
+
+	for k,v in pairs(self.characters) do
+		love.graphics.draw(self.sprites, self.Quadlist.test, v.x * self.cell_size, v.y * self.cell_size)
+	end
 end
 
 return map
