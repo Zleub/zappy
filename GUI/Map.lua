@@ -40,19 +40,19 @@ end
 
 function map.convert(rawcell)
 	if rawcell == 0 then
-		return 'Nourriture'
-	elseif rawcell == 1 then
 		return 'Linemate'
-	elseif rawcell == 2 then
+	elseif rawcell == 1 then
 		return 'Deraumère'
-	elseif rawcell == 3 then
+	elseif rawcell == 2 then
 		return 'Sibur'
-	elseif rawcell == 4 then
+	elseif rawcell == 3 then
 		return 'Mendiane'
-	elseif rawcell == 5 then
+	elseif rawcell == 4 then
 		return 'Phiras'
+	elseif rawcell == 5 then
+		return 'Thystame'
 	elseif rawcell == 6 then
-		return 'Thystam'
+		return 'Nourriture'
 	end
 end
 
@@ -137,6 +137,7 @@ function map:leave_char()
 	for k,v in pairs(self.characters) do
 		if v.id == tmp[2] then
 			table.remove(self.characters, k)
+			print('Player '..tostring(v.id)..' is dead ...')
 		end
 	end
 end
