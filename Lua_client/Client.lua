@@ -115,7 +115,7 @@ function client:getLook(array)
 	for k,v in pairs(array) do
 		if string.byte(v, -1) == string.byte(",") then
 			tmp = string.sub(v, 1, -2)
-			self.view[index][tmp2] = self.view[index][tmp2] + 1
+			self.view[index][tmp] = self.view[index][tmp] + 1
 			index = index + 1
 		else
 			pretty.dump(self.view)
