@@ -6,9 +6,24 @@ function map:conf()
 	self.cell_size = 32
 	self.timeout = 0.01
 
+	self.tileset = love.graphics.newImage("Images/Tiles0.png")
+	self.sprites = love.graphics.newImage("Images/sprites.png")
+
+	self.Quadlist = {
+		grass = love.graphics.newQuad(64, 32, self.cell_size, self.cell_size,
+					self.tileset:getDimensions()),
+		boo = love.graphics.newQuad(127, 6559, self.cell_size, self.cell_size,
+					self.sprites:getDimensions()),
+		test = love.graphics.newQuad(0, 1440, self.cell_size, self.cell_size,
+					self.sprites:getDimensions()),
+	}
+
 	self.mapchar = string.byte('M')
 	self.charchar = string.byte('C')
 	self.celladdchar = string.byte('+')
+	self.leavechar = string.byte('L')
+
+	self.characters = {}
 end
 
 function map.read(str)
@@ -73,23 +88,30 @@ end
 
 function map:update()
 	self.mouse:moveTo(love.mouse.getPosition())
-	local str = self.client:receive()
-	if str ~= nil then
-		print(str)
-	end
+	self:listen()
 end
 
 function map:draw()
+	local x1
+	local y1
+	local x2
+	local y2
+
 	for k,v in pairs(self.shapes) do
 		for key,val in pairs(v) do
+			x2, y2, x1, y1 = val._polygon:unpack()
+			love.graphics.draw(self.tileset, self.Quadlist.grass, x1, y1)
 			if self.mouse:collidesWith(val) then
-				love.graphics.polygon('fill', val._polygon:unpack())
+				love.graphics.rectangle("line", x1, y1, 32, 32)
 				love.graphics.print(pretty.write(self.data[k][key]), 350, 0)
-			else
-				love.graphics.polygon('line', val._polygon:unpack())
 			end
 		end
 	end
+
+	for k,v in pairs(self.characters) do
+		love.graphics.draw(self.sprites, self.Quadlist.test, v.x * self.cell_size, v.y * self.cell_size)
+	end
+
 end
 
 function map:update_cell()
@@ -98,8 +120,28 @@ function map:update_cell()
 	table.insert(self.data[tmp[2] + 1][tmp[3] + 1].content, map.convert(tonumber(tmp[4])))
 end
 
+function map:new_char()
+	local tmp = map.read(self.str)
+	pretty.dump(tmp)
+
+	table.insert(self.characters, {
+		id = tmp[2],
+		x = tmp[3],
+		y = tmp[4]
+		})
+end
+
+function map:leave_char()
+	local tmp = map.read(self.str)
+
+	for k,v in pairs(self.characters) do
+		if v.id == tmp[2] then
+			table.remove(self.characters, k)
+		end
+	end
+end
+
 function map:getmessage()
-	-- print(self.str)
 	if string.byte(self.str) == self.mapchar then
 		self:init_size()
 		self:create()
@@ -107,19 +149,21 @@ function map:getmessage()
 	elseif string.byte(self.str) == self.celladdchar then
 		self:update_cell()
 	elseif string.byte(self.str) == self.charchar then
-		print(str)
+		self:new_char()
+	elseif string.byte(self.str) == self.leavechar then
+		self:leave_char()
+	else
+		print(self.str)
 	end
 end
 
 function map:listen()
 	self.str = self.client:receive('*l')
-	-- print(self.str)
+
 	if self.str ~= nil then
 		self:getmessage()
-		-- print(self.str)
 		return 1
 	else
-		print("listen ...")
 		return 0
 	end
 end

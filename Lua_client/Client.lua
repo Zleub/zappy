@@ -4,7 +4,7 @@ function client:conf()
 	self.address = '*'
 	self.port = 4558
 	self.timeout = 0.1
-	self.team = 'team1\n'
+	self.team = 'boo\n'
 	self.lvl = 1
 	self.data = {
 		greeting = 'BIENVENUE',
