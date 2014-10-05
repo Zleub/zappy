@@ -24,8 +24,7 @@ function map:load()
 		grass = love.graphics.newQuad(64, 32, self.cell_size, self.cell_size,
 					self.tileset:getDimensions()),
 
-		boo = love.graphics.newQuad(127, 6559, self.cell_size, self.cell_size,
-					self.sprites:getDimensions()),
+		boo = self:spriteup(12, 6559),
 		trunk = self:spriteup(12, 1311),
 		vegeta = self:spriteup(12, 799)
 
@@ -102,13 +101,15 @@ end
 function map:new_char()
 	local tmp = map.split(self.str)
 
+	print('New Player:')
+	print(self.str)
 	table.insert(self.characters, {
 		id = tmp[2],
-		x = tmp[3],
-		y = tmp[4],
-		orientation = tmp[5]
+		x = tmp[3] * self.scale[1],
+		y = tmp[4] * self.scale[2],
+		orientation = tmp[5],
+		team = tmp[14]
 		})
-	print(tmp[5])
 end
 
 function map:update_cell()
@@ -131,17 +132,11 @@ function map:create()
 				y = j - 1,
 				content = {}
 			}
-			print(
+			self.shapes[i][j] = self.HC:addPolygon(
 				(i - 1) * self.cell_size * self.scale[1], (j - 1) * self.cell_size * self.scale[2],
 				(i - 1) * self.cell_size * self.scale[1] + self.cell_size * self.scale[1], (j - 1) * self.cell_size * self.scale[2],
 				(i - 1) * self.cell_size * self.scale[1] + self.cell_size * self.scale[1], (j - 1) * self.cell_size  * self.scale[2] + self.cell_size * self.scale[2],
 				(i - 1) * self.cell_size * self.scale[1], (j - 1) * self.cell_size * self.scale[2] + self.cell_size * self.scale[2]
-			)
-			self.shapes[i][j] = self.HC:addPolygon(
-				(i - 1) * self.cell_size, (j - 1) * self.cell_size,
-				(i - 1) * self.cell_size + self.cell_size, (j - 1) * self.cell_size,
-				(i - 1) * self.cell_size + self.cell_size, (j - 1) * self.cell_size + self.cell_size,
-				(i - 1) * self.cell_size, (j - 1) * self.cell_size + self.cell_size
 			)
 		end
 	end
@@ -159,7 +154,7 @@ function map:getmessage()
 	elseif string.byte(self.str) == self.leavechar then
 		self:leave_char()
 	else
-		-- print(self.str)
+		print("Not understood message:", self.str)
 	end
 end
 
@@ -219,15 +214,22 @@ function map:draw()
 	local y2
 
 	-- love.graphics.scale(self.scale[1], self.scale[2])
-	love.graphics.print(love.timer.getFPS(), 550, 300)
+	local winwidth, winheight = love.window.getDimensions()
+	love.graphics.print(love.timer.getFPS(), winwidth - 20, winheight - 20)
 
 	for k,v in pairs(self.shapes) do
 		for key,val in pairs(v) do
 			x2, y2, x1, y1 = val._polygon:unpack()
-			love.graphics.draw(self.tileset, self.Quadlist.grass, x1, y1)
+			love.graphics.draw(self.tileset, self.Quadlist.grass, x1, y1, 0, self.scale[1], self.scale[2])
+
 			if self.mouse:collidesWith(val) then
-				love.graphics.rectangle("fill", x1, y1, self.cell_size, self.cell_size)
-				love.graphics.print(pretty.write(self.data[k][key]), 350, 0)
+				love.graphics.rectangle("line", x1, y1, self.cell_size * self.scale[1], self.cell_size * self.scale[2])
+
+
+				-- love.graphics.print(pretty.write(self.data[k][key]), 350 * self.scale[1], 0 * self.scale[2])
+				mousex, mousey = love.mouse.getPosition()
+				love.graphics.print(pretty.write(self.data[k][key]), mousex + 15, mousey)
+			else
 			end
 		end
 	end
@@ -235,13 +237,13 @@ function map:draw()
 
 	for k,char in pairs(self.characters) do
 		if char.orientation == '0' then
-			love.graphics.draw(self.sprites, self.Quadlist.vegeta[2], char.x * self.cell_size, char.y * self.cell_size)
+			love.graphics.draw(self.sprites, self.Quadlist[char.team][2], char.x * self.cell_size, char.y * self.cell_size, 0, self.scale[1], self.scale[2])
 		elseif char.orientation == '1' then
-			love.graphics.draw(self.sprites, self.Quadlist.vegeta[11], char.x * self.cell_size, char.y * self.cell_size)
+			love.graphics.draw(self.sprites, self.Quadlist[char.team][11], char.x * self.cell_size, char.y * self.cell_size, 0, self.scale[1], self.scale[2])
 		elseif char.orientation == '2' then
-			love.graphics.draw(self.sprites, self.Quadlist.vegeta[5], char.x * self.cell_size, char.y * self.cell_size)
+			love.graphics.draw(self.sprites, self.Quadlist[char.team][5], char.x * self.cell_size, char.y * self.cell_size, 0, self.scale[1], self.scale[2])
 		elseif char.orientation == '3' then
-			love.graphics.draw(self.sprites, self.Quadlist.vegeta[8], char.x * self.cell_size, char.y * self.cell_size)
+			love.graphics.draw(self.sprites, self.Quadlist[char.team][8], char.x * self.cell_size, char.y * self.cell_size, 0, self.scale[1], self.scale[2])
 		end
 	end
 end
