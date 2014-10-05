@@ -4,7 +4,7 @@ function client:conf()
 	self.address = '*'
 	self.port = 4558
 	self.timeout = 0.01
-	self.team = 'jack\n'
+	self.team = 'vegeta\n'
 	self.lvl = 1
 	self.tencount = 0
 	self.centcount = 0
