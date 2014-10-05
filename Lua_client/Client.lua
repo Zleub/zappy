@@ -219,11 +219,12 @@ function client:update(dt)
 	end
 	if self.tencount >= 10 then
 		self.tencout = 0
-		self:askLook()
+		-- Spawn the server
 	end
 	if self.centcount >= 100 then
 		self.centcount = 0
-		self:askInventory()
+		self:askLook()
+		-- self:askInventory()
 	end
 	self:readline()
 	self.str = nil
