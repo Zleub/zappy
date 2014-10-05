@@ -8,7 +8,7 @@ function map:conf()
 	self.timeout = 0.01
 
 	self.tileset = love.graphics.newImage("Images/Tiles0.png")
-	self.sprites = love.graphics.newImage("Images/sprites.png")
+	self.sprites = love.graphics.newImage("Images/spriteset.png")
 
 	self.mapchar = string.byte('M')
 	self.charchar = string.byte('C')
@@ -24,9 +24,11 @@ function map:load()
 		grass = love.graphics.newQuad(64, 32, self.cell_size, self.cell_size,
 					self.tileset:getDimensions()),
 
-		boo = self:spriteup(12, 6559),
-		trunk = self:spriteup(12, 1311),
-		vegeta = self:spriteup(12, 799)
+		-- boo = self:spriteup(12, 6559),
+		-- trunk = self:spriteup(12, 1311),
+		-- vegeta = self:spriteup(12, 799)
+
+		jack = self:spriteup(12, 0)
 
 	}
 end
@@ -212,6 +214,7 @@ function map:draw()
 	local y1
 	local x2
 	local y2
+	local saveup = nil
 
 	-- love.graphics.scale(self.scale[1], self.scale[2])
 	local winwidth, winheight = love.window.getDimensions()
@@ -227,13 +230,21 @@ function map:draw()
 
 
 				-- love.graphics.print(pretty.write(self.data[k][key]), 350 * self.scale[1], 0 * self.scale[2])
-				mousex, mousey = love.mouse.getPosition()
-				love.graphics.print(pretty.write(self.data[k][key]), mousex + 15, mousey)
+				saveup = pretty.write(self.data[k][key].content)
+				-- love.graphics.setColor(255, 0, 0)
+				-- love.graphics.print(pretty.write(self.data[k][key]), mousex + 15, mousey, 0, self.scale[1], self.scale[2])
+				-- love.graphics.setColor(255, 255, 255)
 			else
 			end
 		end
 	end
 
+	if saveup ~= nil then
+		mousex, mousey = love.mouse.getPosition()
+		love.graphics.setColor(0, 0, 0)
+		love.graphics.print(saveup, mousex + 15, mousey, 0, self.scale[1], self.scale[2])
+		love.graphics.setColor(255, 255, 255)
+	end
 
 	for k,char in pairs(self.characters) do
 		if char.orientation == '0' then
