@@ -7,8 +7,9 @@ function love.load()
 end
 
 function love.update(dt)
-	client:update()
+	client:update(dt)
 end
 
 function love.draw()
+	client:draw()
 end

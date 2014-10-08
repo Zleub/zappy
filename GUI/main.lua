@@ -1,12 +1,13 @@
 pretty = require 'pl.pretty'
 
 function love.load()
+	print("Loading")
 	map = require 'map':init()
-	pretty.dump(map)
+	-- pretty.dump(map)
 end
 
 function love.update(dt)
-	-- print(map.client:receive())
+	map:update()
 end
 
 function love.draw()
