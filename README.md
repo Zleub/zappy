@@ -1,5 +1,14 @@
 ## Zappy
 
+### General Comments
+
+Both client and gfx follow Beone's server protocole as:
+- gfx's init build a map and server fill it up ('+' preceded message) 
+- character's connexion ('C' preceded message)
+- character's death ('L' preceded message)
+- character's view order ('V' preceded message, give ticks)
+- character's pick up order ('-' preceded message)
+
 ### GUI (./gfx)
 GUI is a love2d's Lua folder for the gfx exe<br>
 modules
