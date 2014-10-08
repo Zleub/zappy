@@ -198,11 +198,16 @@ function client:init()
 	self:conf()
 	self.socket = require 'socket'
 	self.client = self.socket.connect(self.address, self.port)
-	self.client:settimeout(self.timeout)
+	if self.client == nil then
+		print('No server @ '..self.address..':'..self.port..'!')
+		love.event.quit()
+	else
+		self.client:settimeout(self.timeout)
+		self:get_greets()
+		print('Greets got, lets eat some sayans')
+		return self
+	end
 
-	self:get_greets()
-	print('Greets got, lets eat some sayans')
-	return self
 end
 
 --

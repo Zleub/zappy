@@ -180,19 +180,24 @@ function map:init()
 	self:conf()
 	self.socket = require 'socket'
 	self.client = self.socket.connect(self.address, self.port)
-	self.client:settimeout(self.timeout)
+	if self.client == nil then
+		print('No server @ '..self.address..':'..self.port..'!')
+		love.event.quit()
+	else
+		self.client:settimeout(self.timeout)
 
-	self.Collider = require 'hardoncollider'
-	self.Polygon = require 'hardoncollider.polygon'
-	self.HC = self.Collider.new(150)
-	self.mouse =  self.HC:addPoint(love.mouse.getPosition())
+		self.Collider = require 'hardoncollider'
+		self.Polygon = require 'hardoncollider.polygon'
+		self.HC = self.Collider.new(150)
+		self.mouse =  self.HC:addPoint(love.mouse.getPosition())
 
-	while (42) do
-		if self:listen() == 0 then
-			break
+		while (42) do
+			if self:listen() == 0 then
+				break
+			end
 		end
+		return self
 	end
-	return self
 end
 
 --
