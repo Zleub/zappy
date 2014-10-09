@@ -205,6 +205,7 @@ function client:init()
 		self.client:settimeout(self.timeout)
 		self:get_greets()
 		print('Greets got, lets eat some sayans')
+		self:askInventory()
 		return self
 	end
 
@@ -224,12 +225,12 @@ function client:update(dt)
 	end
 	if self.tencount >= 10 then
 		self.tencout = 0
-		-- Spawn the server
+		-- Spam the server
 	end
 	if self.centcount >= 100 then
 		self.centcount = 0
 		self:askLook()
-		-- self:askInventory()
+
 	end
 	self:readline()
 	self.str = nil
