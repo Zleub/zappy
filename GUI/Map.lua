@@ -1,6 +1,8 @@
 map = {}
 
 function map:conf()
+	self.quiet = 0
+
 	self.address = '*'
 	self.port = 4559
 	self.cell_size = 32
@@ -13,7 +15,12 @@ function map:conf()
 	self.mapchar = string.byte('M')
 	self.charchar = string.byte('C')
 	self.celladdchar = string.byte('+')
+	self.celldelchar = string.byte('-')
 	self.leavechar = string.byte('L')
+	self.lookchar = string.byte('V')
+	self.actionchar = string.byte('A')
+	self.resultchar = string.byte('R')
+	self.inventorychar = string.byte('I')
 
 	self.characters = {}
 	self:load()
@@ -110,14 +117,68 @@ function map:new_char()
 		x = tmp[3] * self.scale[1],
 		y = tmp[4] * self.scale[2],
 		orientation = tmp[5],
+		life = tmp[6],
 		team = tmp[14]
 		})
+end
+
+function map:get_char(id)
+	for k,v in pairs(self.characters) do
+		if v.id == id then
+			return v
+		end
+	end
+end
+
+function map:action_char()
+	local tmp = map.split(self.str)
+	local char = self:get_char(tmp[2])
+
+	if tmp[3] ~= 'A' and tmp[3] ~= 'P' then
+		char.orientation = tmp[3]
+	end
+end
+
+function map:update_inventory()
+	local tmp = map.split(self.str)
+	local char = self:get_char(tmp[2])
+
+	if tmp[3] == '0' and tmp[4] == '0' and tmp[5] == '0' and
+			tmp[6] == '0' and tmp[7] == '0' and tmp[8] == '0' then
+		print('Player '..char.id..' takes some food')
+	end
+end
+
+function map:result_char()
+	local tmp = map.split(self.str)
+	local char = self:get_char(tmp[2])
+
+	char.x = tmp[3] * self.scale[1]
+	char.y = tmp[4] * self.scale[2]
+end
+
+function map:look_char()
+	local tmp = map.split(self.str)
+	local char = self:get_char(tmp[2])
+
+	char.life = tmp[3]
+	print('Player '..char.id..' => '..char.life..'/'..'1260'..' looks around')
 end
 
 function map:update_cell()
 	local tmp = map.split(self.str)
 
-	table.insert(self.data[tmp[2] + 1][tmp[3] + 1].content, map.convert(tmp[4]))
+	if tmp[1] == '+' then
+		table.insert(self.data[tmp[2] + 1][tmp[3] + 1].content, map.convert(tmp[4]))
+	elseif tmp[1] == '-' then
+		local ressource = map.convert(tmp[4])
+
+		for k,v in pairs(self.data[tmp[2] + 1][tmp[3] + 1].content) do
+			if v == ressource then
+				table.remove(self.data[tmp[2] + 1][tmp[3] + 1].content, k)
+			end
+		end
+	end
 end
 
 function map:create()
@@ -148,13 +209,24 @@ function map:getmessage()
 	if string.byte(self.str) == self.mapchar then
 		self:init_size()
 		self:create()
-		print("init_size:", self.width, self.height)
+		print("init_size:", self.width, self.height, self.max_health)
 	elseif string.byte(self.str) == self.celladdchar then
+		self:update_cell()
+	elseif string.byte(self.str) == self.celldelchar then
 		self:update_cell()
 	elseif string.byte(self.str) == self.charchar then
 		self:new_char()
 	elseif string.byte(self.str) == self.leavechar then
 		self:leave_char()
+	elseif string.byte(self.str) == self.lookchar then
+		self:look_char()
+	elseif string.byte(self.str) == self.actionchar then
+		-- print('action char', self.str)
+		self:action_char()
+	elseif string.byte(self.str) == self.resultchar then
+		self:result_char()
+	elseif string.byte(self.str) == self.inventorychar then
+		self:update_inventory()
 	else
 		print("Not understood message:", self.str)
 	end
@@ -162,6 +234,8 @@ end
 
 function map:listen()
 	self.str = self.client:receive('*l')
+
+	-- print(self.str)
 
 	if self.str ~= nil then
 		self:getmessage()
@@ -187,7 +261,7 @@ function map:init()
 		self.client:settimeout(self.timeout)
 
 		self.Collider = require 'hardoncollider'
-		self.Polygon = require 'hardoncollider.polygon'
+		-- self.Polygon = require 'hardoncollider.polygon'
 		self.HC = self.Collider.new(150)
 		self.mouse =  self.HC:addPoint(love.mouse.getPosition())
 
@@ -236,6 +310,7 @@ function map:draw()
 
 				-- love.graphics.print(pretty.write(self.data[k][key]), 350 * self.scale[1], 0 * self.scale[2])
 				saveup = pretty.write(self.data[k][key].content)
+-- saveup = pretty.write(self.characters)
 				-- love.graphics.setColor(255, 0, 0)
 				-- love.graphics.print(pretty.write(self.data[k][key]), mousex + 15, mousey, 0, self.scale[1], self.scale[2])
 				-- love.graphics.setColor(255, 255, 255)
@@ -247,20 +322,84 @@ function map:draw()
 	if saveup ~= nil then
 		mousex, mousey = love.mouse.getPosition()
 		love.graphics.setColor(0, 0, 0)
-		love.graphics.print(saveup, mousex + 15, mousey, 0, self.scale[1], self.scale[2])
+		love.graphics.print(saveup, mousex + 15, mousey, 0)
 		love.graphics.setColor(255, 255, 255)
 	end
 
 	for k,char in pairs(self.characters) do
 		if char.orientation == '0' then
-			love.graphics.draw(self.sprites, self.Quadlist[char.team][2], char.x * self.cell_size, char.y * self.cell_size, 0, self.scale[1], self.scale[2])
+			love.graphics.draw(
+				self.sprites,
+				self.Quadlist[char.team][2],
+				char.x * self.cell_size,
+				char.y * self.cell_size,
+				0,
+				self.scale[1],
+				self.scale[2]
+			)
 		elseif char.orientation == '1' then
-			love.graphics.draw(self.sprites, self.Quadlist[char.team][11], char.x * self.cell_size, char.y * self.cell_size, 0, self.scale[1], self.scale[2])
+			love.graphics.draw(
+				self.sprites,
+				self.Quadlist[char.team][11],
+				char.x * self.cell_size,
+				char.y * self.cell_size,
+				0,
+				self.scale[1],
+				self.scale[2]
+			)
 		elseif char.orientation == '2' then
-			love.graphics.draw(self.sprites, self.Quadlist[char.team][5], char.x * self.cell_size, char.y * self.cell_size, 0, self.scale[1], self.scale[2])
+			love.graphics.draw(
+				self.sprites,
+				self.Quadlist[char.team][5],
+				char.x * self.cell_size,
+				char.y * self.cell_size,
+				0,
+				self.scale[1],
+				self.scale[2]
+			)
 		elseif char.orientation == '3' then
-			love.graphics.draw(self.sprites, self.Quadlist[char.team][8], char.x * self.cell_size, char.y * self.cell_size, 0, self.scale[1], self.scale[2])
+			love.graphics.draw(
+				self.sprites,
+				self.Quadlist[char.team][8],
+				char.x * self.cell_size,
+				char.y * self.cell_size,
+				0,
+				self.scale[1],
+				self.scale[2]
+			)
 		end
+		love.graphics.print(
+			char.id,
+			char.x * self.cell_size,
+			char.y * self.cell_size,
+			0,
+			self.scale[1] - 1,
+			self.scale[2] - 1
+		)
+
+		love.graphics.setColor(0, 0, 0)
+		love.graphics.rectangle(
+			"fill",
+			char.x * self.cell_size,
+			char.y * self.cell_size + ((self.cell_size - 3) * self.scale[1]),
+			(self.cell_size * self.scale[1]),
+			2)
+		love.graphics.setColor(255, 0, 0)
+		love.graphics.rectangle(
+			"fill",
+			char.x * self.cell_size,
+			char.y * self.cell_size + ((self.cell_size - 3) * self.scale[1]),
+			(self.cell_size * self.scale[1]) * char.life / 1260,
+			2)
+		love.graphics.setColor(255, 255, 255)
+		love.graphics.rectangle(
+			"line",
+			char.x * self.cell_size,
+			char.y * self.cell_size + ((self.cell_size - 3) * self.scale[1]) - 1,
+			(self.cell_size * self.scale[1]),
+			2 + 2)
+
+
 	end
 end
 
