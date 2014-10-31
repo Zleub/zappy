@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: adebray <adebray@student.42.fr>            +#+  +:+       +#+         #
+#    By: Arno <Arno@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/10/02 03:26:29 by adebray           #+#    #+#              #
-#    Updated: 2014/10/02 16:16:32 by adebray          ###   ########.fr        #
+#    Updated: 2014/10/31 11:47:36 by Arno             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,18 +25,18 @@ LIBLIBFT		=	-L$(SRCDIR)/libft -lft
 LIBPRINTF		=	-L$(SRCDIR)/ft_printf -lftprintf
 LIBESSENTIAL	=	$(LIBLIBFT) $(LIBPRINTF)
 
-LIBSERVEUR		=	-L$(SRCDIR)/serveur -lserveur
+LIBSERVEUR		=	-L$(SRCDIR)/libserv -lserv
 
 LIBNCURSES		=	-L$(SRCDIR)/curse -lcurse
 LIBGRAPHIC		=	-lncurses
 
-LIBFLAG			=	$(LIBESSENTIAL) $(LIBNCURSES) $(LIBGRAPHIC) #$(LIBSERVEUR)
+LIBFLAG			=	$(LIBESSENTIAL) $(LIBNCURSES) $(LIBGRAPHIC) $(LIBSERVEUR)
 
 .PHONY: all clean fclean re $(NAME) client_lua gfx
 
 all: $(NAME) client_lua gfx
 
-makelib: libft printf curse sockets # serv
+makelib: libft printf curse sockets serv
 
 $(NAME): makelib $(OBJ)
 	@$(CC) $(CCFLAGS) $(HEADFLAG) $(LIBFLAG) -o $(NAME) $(OBJ)
@@ -56,7 +56,7 @@ sockets: $(HEADDIR)/libftsock.h $(HEADDIR)/libftsock_struct.h
 	@make -C $(SRCDIR)/libftsock
 
 serv: $(HEADDIR)/serveur.h
-	@make -C $(SRCDIR)/serveur
+	@make -C $(SRCDIR)/libserv
 
 %.o: %.c $(HEADDIR)/serveur.h
 	@echo '.''\c'
@@ -77,7 +77,7 @@ clean:
 	@make -C $(SRCDIR)/curse clean
 	@make -C $(SRCDIR)/ft_printf clean
 	@make -C $(SRCDIR)/libftsock clean
-	# @make -C $(SRCDIR)/serveur clean
+	@make -C $(SRCDIR)/libserv clean
 	@rm -f $(OBJ)
 	@echo "\033[31m•\033[0m $(NAME) clean.\033[0m"
 
@@ -86,7 +86,7 @@ fclean: clean
 	@make -C $(SRCDIR)/curse fclean
 	@make -C $(SRCDIR)/ft_printf fclean
 	@make -C $(SRCDIR)/libftsock fclean
-	# @make -C $(SRCDIR)/serveur fclean
+	@make -C $(SRCDIR)/libserv fclean
 	@rm -f $(OBJ)
 	@rm -f $(LIBNAME)
 	@rm -f client_lua
