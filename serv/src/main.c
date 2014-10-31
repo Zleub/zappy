@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Arno <Arno@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/10/02 15:56:37 by adebray           #+#    #+#             */
-/*   Updated: 2014/10/31 12:46:37 by Arno             ###   ########.fr       */
+/*   Updated: 2014/10/31 23:55:00 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_printf.h>
 #include <serveur.h>
 #include <libft.h>
+#include <sys/types.h>
 #include <sys/socket.h>
 #include <errno.h>
 
@@ -47,7 +48,9 @@ int		main(int argc, char **argv)
 
 	while (42)
 	{
-		
+		struct sockaddr *addr;
+		int ret1;
+		ret1 = accept (sock, addr, sizeof(addr));
 	}
 
 	return (0);
