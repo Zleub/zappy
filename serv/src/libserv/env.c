@@ -3,30 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Arno <Arno@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/10/31 11:22:13 by Arno              #+#    #+#             */
-/*   Updated: 2014/10/31 12:26:52 by Arno             ###   ########.fr       */
+/*   Updated: 2014/11/01 15:13:17 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_printf.h>
 #include <serveur.h>
-#include <libft.h>
 
 void	ft_print_env(t_env *env)
 {
-	ft_printf("port->%s\n", env->port);
-	ft_printf("x->%d\n", env->x);
-	ft_printf("y->%d\n", env->y);
-	ft_printf("name->%s\n", env->name);
-	ft_printf("clientmax->%d\n", env->clientmax);
+	printf("port->%d\n", env->port);
+	printf("x->%d\n", env->x);
+	printf("y->%d\n", env->y);
+	printf("name->%s\n", env->name);
+	printf("clientmax->%d\n", env->clientmax);
 }
 
 void	ft_fill_env(t_env *env, char ch, char *optarg)
 {
 	if (ch == 'p')
-		env->port = ft_strdup(optarg);
+		env->port = ft_atoi(optarg);
 	else if (ch == 'x')
 		env->x = ft_atoi(optarg);
 	else if (ch == 'y')

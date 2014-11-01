@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Arno <Arno@student.42.fr>                  +#+  +:+       +#+         #
+#    By: adebray <adebray@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/10/31 11:23:14 by Arno              #+#    #+#              #
-#    Updated: 2014/10/31 11:46:17 by Arno             ###   ########.fr        #
+#    Updated: 2014/11/01 15:50:59 by adebray          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@ NAME		=	libserv.a
 LIB			=	serv
 HEADDIR		=	 ../../inc
 
-SRC			=	env.c
+SRC			=	env.c \
+				client.c \
+				client_list.c
 
 OBJ			= $(subst .c,.o,$(SRC))
 
