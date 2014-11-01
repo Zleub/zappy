@@ -1,0 +1,2 @@
+#!/bin/sh
+./bin/love.app/Contents/MacOS/love ./GUI
