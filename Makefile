@@ -6,7 +6,7 @@
 #    By: Arno <Arno@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/10/02 03:26:29 by adebray           #+#    #+#              #
-#    Updated: 2014/10/31 11:47:36 by Arno             ###   ########.fr        #
+#    Updated: 2014/11/02 18:01:57 by Arno             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,7 @@ client_lua:
 
 gfx:
 	@echo "#!/bin/sh" > gfx
-	@echo "./bin/love.app/Contents/MacOS/love ./GUI" >> gfx
+	@echo "./bin/love.app/Contents/MacOS/love ./lua_gfx" >> gfx
 	chmod 755 gfx
 
 clean:

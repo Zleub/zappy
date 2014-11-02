@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: adebray <adebray@student.42.fr>            +#+  +:+       +#+         #
+#    By: Arno <Arno@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/10/31 11:23:14 by Arno              #+#    #+#              #
-#    Updated: 2014/11/01 15:50:59 by adebray          ###   ########.fr        #
+#    Updated: 2014/11/02 19:43:50 by Arno             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,9 @@ HEADDIR		=	 ../../inc
 
 SRC			=	env.c \
 				client.c \
-				client_list.c
+				client_list.c \
+				sock.c \
+				team.c
 
 OBJ			= $(subst .c,.o,$(SRC))
 

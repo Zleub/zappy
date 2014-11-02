@@ -1,5 +1,9 @@
 ## Zappy
 
+```
+Usage: ./serveur [--strict] [-xypct option] [-n teamname [teamname] ...]
+```
+
 ### General Comments
 
 Both client and gfx follow Beone's server protocole as:

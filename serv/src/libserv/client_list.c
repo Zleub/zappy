@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
+/*   By: Arno <Arno@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/01 15:36:49 by adebray           #+#    #+#             */
-/*   Updated: 2014/11/01 15:56:52 by adebray          ###   ########.fr       */
+/*   Updated: 2014/11/02 17:10:11 by Arno             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,47 @@ static t_client_list		*add_client_list(t_client_list *head, t_client *client)
 
 void						print_client_list(t_client_list *head)
 {
-	printf("%p\nhead->elem:%p, head->next%p\n", head, head->elem, head->next);
-	if (head->next != NULL)
-		print_client_list(head->next);
+	printf("client head: %p\n", head);
+	if (head)
+	{
+		print_client(head->elem);
+		if (head->next != NULL)
+			print_client_list(head->next);
+	}
 }
 
-t_client_list				*manage_client_list(int macro, t_client *client)
+t_client_list				*remove_client_list(t_client_list *head, int fd)
+{
+	t_client_list			*tmp;
+	t_client_list			*t;
+
+	tmp = head;
+	if (tmp->elem->fd == fd)
+	{
+		t = tmp->next;
+		free(tmp);
+		return (t);
+	}
+	while (tmp->next->elem->fd != fd)
+		tmp = tmp->next;
+	free(tmp->next);
+	tmp->next = tmp->next->next;
+	return (head);
+}
+
+t_client_list				*manage_client_list(int macro, t_client *client, int fd)
 {
 	static t_client_list	*head;
 
 	if (macro == ADD)
 		head = add_client_list(head, client);
+	else if (macro == GET)
+		return (head);
+	else if (macro == REMOVE)
+		head = remove_client_list(head, fd);
 	else if (macro == PRINT)
 		print_client_list(head);
 	else
-		printf("manageclientlist: no decent macro");
+		printf("manageclientlist: no decent macro: %d\n", macro);
 	return (NULL);
 }

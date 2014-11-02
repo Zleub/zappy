@@ -206,6 +206,7 @@ function map:create()
 end
 
 function map:getmessage()
+	print('GET MSG:', self.str)
 	if string.byte(self.str) == self.mapchar then
 		self:init_size()
 		self:create()
