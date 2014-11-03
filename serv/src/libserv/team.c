@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   team.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Arno <Arno@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/02 19:25:31 by Arno              #+#    #+#             */
-/*   Updated: 2014/11/02 19:47:53 by Arno             ###   ########.fr       */
+/*   Updated: 2014/11/03 03:59:04 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ t_team_list				*new_team_list(char *str)
 
 	if (!(new = (t_team_list*)malloc(sizeof(t_team_list))))
 		exit (0);
+	bzero(new, sizeof(t_team_list));
 	new->elem = strdup(str);
+	new->slots = 8;
 	manage_team_list(ADD, new);
 	return (new);
 }

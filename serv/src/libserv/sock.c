@@ -3,29 +3,100 @@
 /*                                                        :::      ::::::::   */
 /*   sock.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Arno <Arno@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/02 15:02:18 by Arno              #+#    #+#             */
-/*   Updated: 2014/11/02 18:21:32 by Arno             ###   ########.fr       */
+/*   Updated: 2014/11/03 04:43:23 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <serveur.h>
 
-static void			broadcast(int fd, char *buf)
+// static void			broadcast(int fd, char *buf)
+// {
+// 	int				len;
+// 	t_client_list	*tmp;
+
+// 	len = strlen(buf);
+// 	if (!(tmp = manage_client_list(GET, NULL, 0)))
+// 		return ;
+
+// 	while (tmp != NULL)
+// 	{
+// 		if (tmp->elem->fd != fd)
+// 			send(tmp->elem->fd, buf, len, 0);
+// 		tmp = tmp->next;
+// 	}
+// }
+
+t_client			*ft_get_client_by_fd(int fd)
 {
-	int				len;
-	t_client_list	*tmp;
+	t_client_list	*head;
 
-	len = strlen(buf);
-	if (!(tmp = manage_client_list(GET, NULL, 0)))
-		return ;
-
-	while (tmp != NULL)
+	head = manage_client_list(GET, NULL, 0);
+	while (head)
 	{
-		if (tmp->elem->fd != fd)
-			send(tmp->elem->fd, buf, len, 0);
-		tmp = tmp->next;
+		if (head->elem->fd == fd)
+			return (head->elem);
+	}
+	return (NULL);
+}
+
+static char			*ft_add_endline(char *str)
+{
+	char			*ret;
+	char			*tmp;
+
+	if (!(ret = (char *)malloc(sizeof(char) * (strlen(str) + 2))))
+		return (NULL);
+	tmp = ret;
+	while (*str)
+	{
+		*tmp = *str;
+		tmp += 1;
+		str += 1;
+	}
+	*tmp = '\n';
+	tmp += 1;
+	*tmp = '\0';
+	return (ret);
+}
+
+static void			ft_get_team(t_client *client, char *buf)
+{
+	t_team_list		*team;
+
+	team = manage_team_list(GET, NULL);
+	while (team && strcmp(team->elem, buf))
+		team = team->next;
+	if (team == NULL)
+		send(client->fd, "ko\n", 3, 0);
+	else
+	{
+		send(client->fd, "ok\n", 3, 0);
+		send(client->fd, ft_add_endline(ft_itoa(team->slots)), strlen(ft_itoa(team->slots)) + 1, 0);
+	}
+
+}
+
+static void			ft_read_bystate(int fd, char *buf)
+{
+	t_client		*client;
+
+	client = ft_get_client_by_fd(fd);
+	if (client->state == LOBBY)
+		ft_get_team(client, buf);
+}
+
+static void				ft_trim(char *str)
+{
+	int					i;
+
+	i = strlen(str) - 1;
+	while (str[i] == '\n')
+	{
+		str[i] = '\0';
+		i -= 1;
 	}
 }
 
@@ -45,8 +116,10 @@ static int			ft_read(int fd)
 		return -1;
 	else
 	{
-		printf("SRV from %d: %s", fd, buf);
-		broadcast(fd, buf);
+		ft_trim(buf);
+		printf("SRV from %d: <%s>\n", fd, buf);
+		ft_read_bystate(fd, buf);
+		// broadcast(fd, buf);
 	}
 	return (0);
 }
@@ -65,8 +138,11 @@ static void			ft_newclient(t_env *env)
 	}
 	manage_client(NEW);
 	manage_client(GET)->fd = clientfd;
-	send(clientfd, "BIENVENUE\n", 10, 0);
 	FD_SET (clientfd, &env->active_fd_set);
+
+	send(clientfd, "BIENVENUE\n", 10, 0);
+	manage_client(GET)->state = LOBBY;
+
 	printf("+ new client:\n");
 	manage_client_list(PRINT, NULL, 0);
 }
@@ -77,7 +153,6 @@ static void			ft_sockget(t_env *env, int fd)
 		ft_newclient(env);
 	else
 	{
-		/* Data arriving on an already-connected socket. */
 		if (ft_read(fd) < 0)
 		{
 			close (fd);
@@ -96,11 +171,9 @@ int					ft_sockloop(t_env *env)
 	fd_set			read_fd_set;
 
 
-	// SET TIMEOUT
 	while (42)
 	{
 		read_fd_set = env->active_fd_set;
-		// SELECT the FD in the read && write fd set 
 		if (select (FD_SETSIZE, &read_fd_set, NULL, NULL, NULL) < 0)
 		{
 			perror ("select");
@@ -110,7 +183,6 @@ int					ft_sockloop(t_env *env)
 		while (fd < FD_SETSIZE)
 		{
 			if (FD_ISSET (fd, &read_fd_set))
-				// DO WANT U HAVE TO WITH EACH FD AVAILABLE TO READ OR WRITE
 				ft_sockget(env, fd);
 			fd += 1;
 		}
