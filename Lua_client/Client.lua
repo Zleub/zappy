@@ -80,6 +80,7 @@ function client:readline()
 		print('Ticks: '..self.ticks)
 		love.event.quit()
 	else
+		print('->'..self.str)
 		client:parseline()
 	end
 end
@@ -166,11 +167,13 @@ end
 function client:send_team()
 	self:send(self.team)
 	self:readline()
-	if (self.str == self.fail) then
+	if (self.str == self.data.fail) then
 		print('team name undefined')
 		love.event.quit()
+		return 0
 	else
 		self.slots = self.str
+		return 1
 	end
 end
 
@@ -190,8 +193,11 @@ function client:get_greets()
 		love.event.quit()
 	end
 
-	self:send_team()
-	self:get_size()
+	if self:send_team() ~= 0 then
+		self:get_size()
+	else
+		return 0
+	end
 end
 
 function client:init()
@@ -203,10 +209,13 @@ function client:init()
 		love.event.quit()
 	else
 		self.client:settimeout(self.timeout)
-		self:get_greets()
-		print('Greets got, lets eat some sayans')
-		self:askInventory()
-		return self
+		if self:get_greets() ~= 0 then
+			print('Greets got, lets eat some sayans')
+			self:askInventory()
+			return self
+		else
+			return nil
+		end
 	end
 
 end
