@@ -1,22 +1,26 @@
 client = {}
 
 function client:conf()
+	-- Sockets Vars
 	self.address = '*'
 	self.port = 4558
 	self.timeout = 0.01
+	-- Server Vars
 	self.team = 'jack\n'
-	self.lvl = 1
-	self.tencount = 0
-	self.centcount = 0
-	self.ticks = 1260
 	self.data = {
 		greeting = 'BIENVENUE',
 		fail = 'ko',
 		death = 'mort'
 	}
+	-- IA Vars
+	self.lvl = 1
 	self.view = nil
 	self.B_look = 0
 	self.B_inv = 0
+	-- Ticks Vars
+	self.tencount = 0
+	self.centcount = 0
+	self.ticks = 1260
 end
 
 --
@@ -36,7 +40,7 @@ function client.new_viewcell()
 	}
 end
 
-function client.new_view()
+function client.new_view()-- Elevation /!\
 	return {
 		client.new_viewcell(),
 		client.new_viewcell(),
@@ -125,7 +129,7 @@ function client:getLook(array)
 	self.B_look = 0
 end
 
-function client:parseline()
+function client:parseline() -- PROBLEMS HERE
 	local tmp1
 	local tmp2
 
@@ -134,6 +138,7 @@ function client:parseline()
 	if tmp2[2] == nil then
 		return
 	elseif string.byte(tmp2[2], -1) == string.byte(',') then -- I NEED SOME PARSING REGEXIONS HERE
+		print(self.ticks)
 		self:getInventory(tmp1)
 	elseif string.byte(tmp2[1]) == string.byte('{') then -- I NEED SOME PARSING REGEXIONS HERE
 		self:getLook(tmp1)
