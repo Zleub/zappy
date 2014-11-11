@@ -6,7 +6,7 @@
 /*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/10/02 16:15:34 by adebray           #+#    #+#             */
-/*   Updated: 2014/11/03 04:51:07 by adebray          ###   ########.fr       */
+/*   Updated: 2014/11/10 19:04:01 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ int							ft_sockloop(t_env *env);
 
 
 t_team_list				*new_team_list(char *str);
-t_team_list				*add_team_list(t_team_list *head, t_team_list *elem);
 t_team_list				*manage_team_list(int macro, t_team_list *elem);
 
 #endif

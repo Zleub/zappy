@@ -1,2 +1,0 @@
-#!/bin/sh
-./bin/love.app/Contents/MacOS/love ./lua_gfx

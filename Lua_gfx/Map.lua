@@ -296,7 +296,6 @@ function map:draw()
 	local y2
 	local saveup = nil
 
-	-- love.graphics.scale(self.scale[1], self.scale[2])
 	local winwidth, winheight = love.window.getDimensions()
 	love.graphics.print(love.timer.getFPS(), winwidth - 20, winheight - 20)
 
@@ -304,18 +303,9 @@ function map:draw()
 		for key,val in pairs(v) do
 			x2, y2, x1, y1 = val._polygon:unpack()
 			love.graphics.draw(self.tileset, self.Quadlist.grass, x1, y1, 0, self.scale[1], self.scale[2])
-
 			if self.mouse:collidesWith(val) then
 				love.graphics.rectangle("line", x1, y1, self.cell_size * self.scale[1], self.cell_size * self.scale[2])
-
-
-				-- love.graphics.print(pretty.write(self.data[k][key]), 350 * self.scale[1], 0 * self.scale[2])
 				saveup = pretty.write(self.data[k][key].content)
--- saveup = pretty.write(self.characters)
-				-- love.graphics.setColor(255, 0, 0)
-				-- love.graphics.print(pretty.write(self.data[k][key]), mousex + 15, mousey, 0, self.scale[1], self.scale[2])
-				-- love.graphics.setColor(255, 255, 255)
-			else
 			end
 		end
 	end
