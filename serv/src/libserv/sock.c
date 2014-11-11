@@ -6,7 +6,7 @@
 /*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/02 15:02:18 by Arno              #+#    #+#             */
-/*   Updated: 2014/11/03 04:43:23 by adebray          ###   ########.fr       */
+/*   Updated: 2014/11/10 18:57:01 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,6 @@ int					ft_sockloop(t_env *env)
 {
 	int				fd;
 	fd_set			read_fd_set;
-
 
 	while (42)
 	{

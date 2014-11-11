@@ -3,7 +3,7 @@ pretty = require 'pl.pretty'
 function love.load()
 	print('Lua_client')
 	client = require 'client':init()
-	-- pretty.dump(client)
+	pretty.dump(client)
 end
 
 function love.update(dt)
