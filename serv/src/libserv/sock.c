@@ -6,7 +6,7 @@
 /*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/02 15:02:18 by Arno              #+#    #+#             */
-/*   Updated: 2014/11/10 18:57:01 by adebray          ###   ########.fr       */
+/*   Updated: 2014/12/02 22:24:59 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,51 +42,51 @@ t_client			*ft_get_client_by_fd(int fd)
 	return (NULL);
 }
 
-static char			*ft_add_endline(char *str)
-{
-	char			*ret;
-	char			*tmp;
+// static char			*ft_add_endline(char *str)
+// {
+// 	char			*ret;
+// 	char			*tmp;
 
-	if (!(ret = (char *)malloc(sizeof(char) * (strlen(str) + 2))))
-		return (NULL);
-	tmp = ret;
-	while (*str)
-	{
-		*tmp = *str;
-		tmp += 1;
-		str += 1;
-	}
-	*tmp = '\n';
-	tmp += 1;
-	*tmp = '\0';
-	return (ret);
-}
+// 	if (!(ret = (char *)malloc(sizeof(char) * (strlen(str) + 2))))
+// 		return (NULL);
+// 	tmp = ret;
+// 	while (*str)
+// 	{
+// 		*tmp = *str;
+// 		tmp += 1;
+// 		str += 1;
+// 	}
+// 	*tmp = '\n';
+// 	tmp += 1;
+// 	*tmp = '\0';
+// 	return (ret);
+// }
 
-static void			ft_get_team(t_client *client, char *buf)
-{
-	t_team_list		*team;
+// static void			ft_get_team(t_client *client, char *buf)
+// {
+// 	t_team_list		*team;
 
-	team = manage_team_list(GET, NULL);
-	while (team && strcmp(team->elem, buf))
-		team = team->next;
-	if (team == NULL)
-		send(client->fd, "ko\n", 3, 0);
-	else
-	{
-		send(client->fd, "ok\n", 3, 0);
-		send(client->fd, ft_add_endline(ft_itoa(team->slots)), strlen(ft_itoa(team->slots)) + 1, 0);
-	}
+// 	team = manage_team_list(GET, NULL);
+// 	while (team && strcmp(team->elem, buf))
+// 		team = team->next;
+// 	if (team == NULL)
+// 		send(client->fd, "ko\n", 3, 0);
+// 	else
+// 	{
+// 		send(client->fd, "ok\n", 3, 0);
+// 		send(client->fd, ft_add_endline(ft_itoa(team->slots)), strlen(ft_itoa(team->slots)) + 1, 0);
+// 	}
 
-}
+// }
 
-static void			ft_read_bystate(int fd, char *buf)
-{
-	t_client		*client;
+// static void			ft_read_bystate(int fd, char *buf)
+// {
+// 	t_client		*client;
 
-	client = ft_get_client_by_fd(fd);
-	if (client->state == LOBBY)
-		ft_get_team(client, buf);
-}
+// 	client = ft_get_client_by_fd(fd);
+// 	if (client->state == LOBBY)
+// 		ft_get_team(client, buf);
+// }
 
 static void				ft_trim(char *str)
 {
@@ -118,7 +118,7 @@ static int			ft_read(int fd)
 	{
 		ft_trim(buf);
 		printf("SRV from %d: <%s>\n", fd, buf);
-		ft_read_bystate(fd, buf);
+		// ft_read_bystate(fd, buf);
 		// broadcast(fd, buf);
 	}
 	return (0);
@@ -144,7 +144,7 @@ static void			ft_newclient(t_env *env)
 	manage_client(GET)->state = LOBBY;
 
 	printf("+ new client:\n");
-	manage_client_list(PRINT, NULL, 0);
+	// manage_client_list(PRINT, NULL, 0);
 }
 
 static void			ft_sockget(t_env *env, int fd)
